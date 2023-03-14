@@ -66,9 +66,9 @@ def load_file1():
     global n1 
     global t1 
     global list1 
-    file1 = list1[n1] 
-    print( file1 ) 
-    pg1.mixer.music.load( file1 ) 
+    file1 = list1[n1]
+    print( file1 )
+    pg1.mixer.music.load( file1 )
 
 def click_list1( event ): 
     global n1 
@@ -97,9 +97,9 @@ def next1():
     global list1 
     n1 = n1 + 1 
     if n1 > len( list1 )-1:
-        n1 = 0 
-    set_list1() 
-    play1() 
+        n1 = 0
+    set_list1()
+    play1()
 
 def set_volume1( str1 ): 
     val1 = float( str1 )/100.0 
@@ -154,20 +154,23 @@ def after1():
         t0 = -1 
         rep1 = -1 
         ply1 = -1 
-        if chkv1.get() and (n1 < len( list1 )-1): 
-            next1() 
-    elif status1 == "next": 
+        if chkv1.get() and (n1 < len( list1 )-1):
+            next1()
+    elif status1 == "next":
         t0 = t1         
         if rep1 > 0: 
             play0() 
-    else: 
+    else:
         if t0 > -1: 
-            if p1 < 0: t0 = t0 + 1 frame1.after( 1000, after1 ) 
-            def set_A1(): 
-                global t0 
-                if t0 >= 0:
-                    textbox1.delete( 0, tk1.END )
-                    textbox1.insert( tk1.END, str(t0) ) 
+            if p1 < 0: 
+                t0 = t0 + 1 
+                frame1.after( 1000, after1 ) 
+def set_A1():
+    global t0
+    
+    if t0 >= 0:
+        textbox1.delete( 0, tk1.END )
+        textbox1.insert( tk1.END, str(t0) ) 
 
 def set_B1(): 
     global t0 
@@ -224,7 +227,7 @@ def plus3():
     set_text3( rep1 )
 
 path1 = os.path.dirname(__file__) + "\\audio1\\"    
-list1 = glob.glob( path1 + "*.*" ) 
+list1 = glob.glob( path1 + "*.*" )
 
 n1 = -1       # file number 
 t0 = -1       # timer 
