@@ -124,7 +124,7 @@ scale1.set( 100 )
 def richpresence():
     rpc=Presence("1085040142634459216")
     rpc.connect()
-    rpc.update(details="playing stray music",large_image="bg",start=time.time())#小アイコンもできれば付けたい
+    rpc.update(details="playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
 #discord起動してない場合の例外処理
 try:
     richpresence()
