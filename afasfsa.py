@@ -88,7 +88,10 @@ def prev1():
     global n1 
     global list1 
     n1 = n1 - 1 
-    if n1 < 0: n1 = len( list1 )-1 set_list1() play1() 
+    if n1 < 0: 
+        n1 = len( list1 )-1 
+        set_list1() 
+        play1() 
 def next1(): 
     global n1 
     global list1 
