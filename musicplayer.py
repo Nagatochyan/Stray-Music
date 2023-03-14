@@ -59,7 +59,7 @@ def play():
                 pygame.mixer.music.load(tune)
                 mc = mp3(tune).info.length
                 pygame.mixer.music.play(1)
-                time.sleep(mc + 0.5)
+                time.sleep(mc+0.5)
             else:
                 #継続◯だけ
                 for tune in lst:
@@ -83,12 +83,12 @@ def stop():
     else:
         pygame.mixer.music.unpause()
 #音量調節関数
-def set_volume1( str1 ):
-    val1 = float( str1 )/100.0
+def set_volume1(str1):
+    val1=float(str1)/100.0
     if val1 < 0.0: val1 = 0.0
     elif val1 > 100.0:
-        val1 = 1.0
-    pygame.mixer.music.set_volume( val1 )
+        val1 =1.0
+    pygame.mixer.music.set_volume(val1)
 def selectth():
     thread = threading.Thread(target=select)
     thread.start()
@@ -101,24 +101,24 @@ def stopth():
 
 #ファイル参照ボタン
 img=tk.PhotoImage(file="UI/docusign.png")
-big_img=img.zoom(2, 2)
+big_img=img.zoom(2,2)
 selecmu=tk.Button(image=big_img,command=selectth)
 selecmu.place(x=20,y=200)
 #再生開始ボタン
 imgg=tk.PhotoImage(file="UI/play_icon.png")
-small_img = imgg.subsample(1, 1)
+small_img = imgg.subsample(1,1)
 playbu=tk.Button(image=small_img,command=playth)
-playbu.place(x=530 ,y=10)
+playbu.place(x=530,y=10)
 #一時停止ボタン
 imggg=tk.PhotoImage(file="UI/stop_icon.png")
-small_imgg= imggg.subsample(1, 1)
+small_imgg= imggg.subsample(1,1)
 stopbu=tk.Button(image=small_imgg,command=stopth)
-stopbu.place(x=570 ,y=200)
+stopbu.place(x=570,y=200)
 #音量調節バー         #左右の端に音量のアイコン付けたい
 vol=tk.Label(text="Vol",fg="black",font=("20"))
-vol.place(x=150, y=215)
+vol.place(x=150,y=215)
 scale1 = tk.Scale( from_=0, to=100, length=200, orient = 'h', command=set_volume1 )
-scale1.place( x=200, y=200, width=150 )
+scale1.place(x=200,y=200,width=150)
 scale1.set( 100 )
 #Discordのステータス表示
 def richpresence():
