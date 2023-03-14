@@ -71,6 +71,12 @@ def up():
 def down():
     newvo=value-1
     pygame.mixer.music.set_volume(newvo)
+def set_volume1( str1 ):
+    val1 = float( str1 )/100.0
+    if val1 < 0.0: val1 = 0.0
+    elif val1 > 100.0:
+        val1 = 1.0
+    pygame.mixer.music.set_volume( val1 )
 def selectth():
     thread = threading.Thread(target=select)
     thread.start()
@@ -94,14 +100,12 @@ imggg=tk.PhotoImage(file="UI/stop_icon.png")
 small_imgg= imggg.subsample(1, 1)
 stopbu=tk.Button(image=small_imgg,command=stopth)
 stopbu.place(x=570 ,y=200)
-imgggg=tk.PhotoImage(file="UI/volume-up.png")
-small_imggg= imgggg.subsample(1, 1)
-volup=tk.Button(image=small_imggg,command=upth)
-volup.place(x=430 ,y=200)
-imggggg=tk.PhotoImage(file="UI/volume-down.png")
-small_imgggg= imggggg.subsample(1, 1)
-voldown=tk.Button(image=small_imgggg,command=downth)
-voldown.place(x=200 ,y=200)
+
+vol=tk.Label(text="Vol",fg="black",font=("20"))
+vol.place(x=150, y=215)
+scale1 = tk.Scale( from_=0, to=100, length=200, orient = 'h', command=set_volume1 )
+scale1.place( x=200, y=200, width=150 )
+scale1.set( 100 )
 def richpresence():
     rpc=Presence("1085040142634459216")
     rpc.connect()
