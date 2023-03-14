@@ -7,7 +7,7 @@ import os
 import threading
 import pygame
 import time
-import subprocess
+from mutagen.mp3 import MP3 as mp3
 root = tk.Tk()
 root.geometry("700x300")
 root.title("Stray Music")
@@ -26,7 +26,7 @@ small_img = imgg.subsample(1, 1)
 def select():
     global lst
     global filenum
-    idir = 'C:\\'
+    idir = 'C:\\Users\\tamat\\3D Objects\\百人一首'
     file_path = tk.filedialog.askdirectory(initialdir = idir)
     lst=glob.glob(file_path+'\\'+'*.mp3')
     filenum=(sum(os.path.isfile(os.path.join(file_path, name)) for name in os.listdir(file_path)))
@@ -47,13 +47,25 @@ def play():
         except NameError:
             print("error")
     else:
-        if boolean_v.get():
-            random.shuffle(lst)
-        for tune in lst:
-            pygame.mixer.init()
-            pygame.mixer.music.load(tune)
-            pygame.mixer.music.play()
         if boolean_vv.get():
+            if boolean_v.get():
+                random.shuffle(lst)
+            for tune in lst:
+                pygame.mixer.init()
+                pygame.mixer.music.load(tune)
+                mc = mp3(tune).info.length
+                pygame.mixer.music.play(1)
+                time.sleep(mc + 0.5)
+            else:
+                for tune in lst:
+                    pygame.mixer.init()
+                    pygame.mixer.music.load(tune)
+                    mc = mp3(tune).info.length
+                    pygame.mixer.music.play(1)
+                    time.sleep(mc + 0.5)
+        else:
+            if boolean_v.get():
+                random.shuffle(lst)
             for tune in lst:
                 pygame.mixer.init()
                 pygame.mixer.music.load(tune)
