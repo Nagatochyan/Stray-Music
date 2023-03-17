@@ -17,14 +17,15 @@ root.iconbitmap(default=iconfile)
 nowp=tk.Label(text="Stray Music Ver1.0",fg="black",font=("20"))
 nowp.place(x=20, y=20)
 #何の曲が流れるとか、順番とか（製作中）
-nowpte=tk.Text()
-nowpte.insert(3.0,"Now playing:（調整中")
+sv = tk.StringVar()
+nowpte=tk.Entry(textvariable=sv)
 nowpte.configure(state='disabled')#書き込み禁止
-nowpte.place(x=200,y=20,width=300,height=140)
+nowpte.place(x=200,y=20,width=300,height=30)
 #参照ボタン関数
 def select():
     global lst
     global filenum
+    global file_path
     idir = 'C:\\'
     file_path = tk.filedialog.askdirectory(initialdir = idir)
     lst=glob.glob(file_path+'\\'+'*.mp3')
@@ -58,6 +59,8 @@ def play():
                 pygame.mixer.init()
                 pygame.mixer.music.load(tune)
                 mc = mp3(tune).info.length
+                tune1=tune.replace(file_path,'')
+                sv.set("Now playing:"+(tune1.replace("\\",'')))
                 pygame.mixer.music.play(1)
                 time.sleep(mc+0.5)
             else:
@@ -66,6 +69,8 @@ def play():
                     pygame.mixer.init()
                     pygame.mixer.music.load(tune)
                     mc = mp3(tune).info.length
+                    tune1=tune.replace(file_path,'')
+                    sv.set("Now playing:"+(tune1.replace("\\",'')))
                     pygame.mixer.music.play(1)
                     time.sleep(mc + 0.5)
         else:
