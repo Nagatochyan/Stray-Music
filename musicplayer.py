@@ -22,9 +22,9 @@ def richpresence():
     global rpc
     rpc=Presence("1085040142634459216")
     rpc.connect()
-    rpc.update(details="playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
+    rpc.update(details="Playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
 def whatareyouplaying():
-    rpc.update(details="playing stray music",state=presenceyou,large_image="bg",start=time.time())
+    rpc.update(details="Playing stray music",state=presenceyou,large_image="bg",start=time.time())
 #何の曲が流れるとか、順番とか（製作中）
 sv = tk.StringVar()
 nowpte=tk.Entry(textvariable=sv)
