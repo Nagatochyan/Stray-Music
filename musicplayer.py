@@ -13,9 +13,18 @@ root.geometry("700x300")
 root.title("Stray Music")
 iconfile = 'UI/icon.ico'
 root.iconbitmap(default=iconfile)
+
 #Title
 nowp=tk.Label(text="Stray Music Ver1.0",fg="black",font=("20"))
 nowp.place(x=20, y=20)
+#Discordのステータス表示
+def richpresence():
+    global rpc
+    rpc=Presence("1085040142634459216")
+    rpc.connect()
+    rpc.update(details="playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
+def whatareyouplaying():
+    rpc.update(details="playing stray music",state=presenceyou,large_image="bg",start=time.time())
 #何の曲が流れるとか、順番とか（製作中）
 sv = tk.StringVar()
 nowpte=tk.Entry(textvariable=sv)
@@ -26,7 +35,7 @@ def select():
     global lst
     global filenum
     global file_path
-    idir = 'C:\\'
+    idir = 'C:\\Users\\tamat\\3D Objects\\百人一首'
     file_path = tk.filedialog.askdirectory(initialdir = idir)
     lst=glob.glob(file_path+'\\'+'*.mp3')
     filenum=(sum(os.path.isfile(os.path.join(file_path, name)) for name in os.listdir(file_path)))
@@ -56,11 +65,17 @@ def play():
             if boolean_v.get():
                 random.shuffle(lst)
             for tune in lst:
+                global presenceyou
                 pygame.mixer.init()
                 pygame.mixer.music.load(tune)
                 mc = mp3(tune).info.length
                 tune1=tune.replace(file_path,'')
-                sv.set("Now playing:"+(tune1.replace("\\",'')))
+                presenceyou=("Now playing: "+(tune1.replace("\\",'')))
+                sv.set("Now playing: "+(tune1.replace("\\",'')))
+                try:
+                        whatareyouplaying()
+                except Exception as e:
+                    pass
                 pygame.mixer.music.play(1)
                 time.sleep(mc+0.5)
             else:
@@ -69,8 +84,12 @@ def play():
                     pygame.mixer.init()
                     pygame.mixer.music.load(tune)
                     mc = mp3(tune).info.length
-                    tune1=tune.replace(file_path,'')
-                    sv.set("Now playing:"+(tune1.replace("\\",'')))
+                    tune2=tune.replace(file_path,'')
+                    sv.set("Now playing:"+(tune2.replace("\\",'')))
+                    try:
+                        whatareyouplaying()
+                    except Exception as e:
+                        pass
                     pygame.mixer.music.play(1)
                     time.sleep(mc + 0.5)
         else:
@@ -80,6 +99,12 @@ def play():
             for tune in lst:
                 pygame.mixer.init()
                 pygame.mixer.music.load(tune)
+                tune3=tune.replace(file_path,'')
+                sv.set("Now playing:"+(tune3.replace("\\",'')))
+                try:
+                    whatareyouplaying()
+                except Exception as e:
+                    pass
                 pygame.mixer.music.play()
 #音楽一時停止関数
 def stop():
@@ -125,11 +150,7 @@ vol.place(x=150,y=215)
 scale1 = tk.Scale( from_=0, to=100, length=200, orient = 'h', command=set_volume1 )
 scale1.place(x=200,y=200,width=150)
 scale1.set( 100 )
-#Discordのステータス表示
-def richpresence():
-    rpc=Presence("1085040142634459216")
-    rpc.connect()
-    rpc.update(details="playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
+
 #discord起動してない場合の例外処理
 try:
     richpresence()
