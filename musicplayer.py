@@ -25,7 +25,7 @@ nowpte.place(x=200,y=20,width=300,height=140)
 def select():
     global lst
     global filenum
-    idir = 'C:\\Users\\tamat\\3D Objects\\百人一首'
+    idir = 'C:\\'
     file_path = tk.filedialog.askdirectory(initialdir = idir)
     lst=glob.glob(file_path+'\\'+'*.mp3')
     filenum=(sum(os.path.isfile(os.path.join(file_path, name)) for name in os.listdir(file_path)))
