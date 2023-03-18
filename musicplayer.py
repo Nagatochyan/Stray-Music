@@ -22,10 +22,19 @@ def richpresence():
     global rpc
     rpc=Presence("1085040142634459216")
     rpc.connect()
-    rpc.update(details="Playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
+    rpc.update(details="Playing stray music",large_image="bg",start=time.time())
+#iscordステータス表示２
 def whatareyouplaying():
     rpc.update(details="Playing stray music",state=presenceyou,large_image="bg",start=time.time())
-#何の曲が流れるとか、順番とか（製作中）
+#曲再生開始からの時間計測(開始)
+def timefromplay():
+    global start
+    start = time.time()
+#曲再生開始からの時間計測(終了)
+def timefromplaystop():
+    global end
+    end = time.time() - start
+#何の曲が流れるか
 sv = tk.StringVar()
 nowpte=tk.Entry(textvariable=sv,fg="#000000")
 nowpte.configure(state='disabled')#書き込み禁止
@@ -39,7 +48,10 @@ def select():
     file_path = tk.filedialog.askdirectory(initialdir = idir)
     lst=glob.glob(file_path+'\\'+'*.mp3')
     filenum=(sum(os.path.isfile(os.path.join(file_path, name)) for name in os.listdir(file_path)))
-    print(filenum)
+    #ファイルビューワーにファイル表示
+    for list1 in sorted( lst ):
+        list2 = os.path.split( list1 )[1]
+        fileviewer.insert('end', list2 )
 #順番に流す（継続再生）チェックボタン
 boolean_vv = tk.BooleanVar()
 playnor = tk.Checkbutton(variable=boolean_vv,text='順番に流す',font=("20"))
@@ -64,6 +76,9 @@ def play():
         if boolean_vv.get():
             if boolean_v.get():
                 random.shuffle(lst)
+            for list1 in sorted( lst ):
+                list3 = os.path.split( list1 )[1]
+                fileviewer.insert('end', list3 )
             for tune in lst:
                 global presenceyou
                 pygame.mixer.init()
@@ -76,6 +91,8 @@ def play():
                         whatareyouplaying()
                 except Exception as e:
                     pass
+                start1=threading.Thread(target=timefromplay)
+                start1.start()
                 pygame.mixer.music.play(1)
                 time.sleep(mc+0.5)
             else:
@@ -90,6 +107,8 @@ def play():
                         whatareyouplaying()
                     except Exception as e:
                         pass
+                    start2=threading.Thread(target=timefromplay)
+                    start2.start()
                     pygame.mixer.music.play(1)
                     time.sleep(mc + 0.5)
         else:
@@ -105,10 +124,15 @@ def play():
                     whatareyouplaying()
                 except Exception as e:
                     pass
+                start3=threading.Thread(target=timefromplay)
+                start3.start()
                 pygame.mixer.music.play()
 #音楽一時停止関数
 def stop():
     if pygame.mixer.music.get_busy()==True:
+        stop1=threading.Thread(target=timefromplaystop)
+        stop1.start()
+        result1 = round(int(end),2)
         pygame.mixer.music.pause()
     else:
         pygame.mixer.music.unpause()
@@ -145,35 +169,17 @@ stopbu=tk.Button(image=small_imgg,command=stopth)
 stopbu.place(x=570,y=200)
 #音量調節バー         #左右の端に音量のアイコン付けたい
 vol=tk.Label(text="Vol",fg="black",font=("20"))
-vol.place(x=150,y=215)
+vol.place(x=230,y=245)
 scale1 = tk.Scale( from_=0, to=100, length=200, orient = 'h', command=set_volume1 )
-scale1.place(x=200,y=200,width=150)
+scale1.place(x=280,y=230,width=150)
 scale1.set( 100 )
+#ファイルビューワー
+fileviewer = tk.Listbox(selectmode = 'single' )
+fileviewer.place(x=200,y=85,width=300, height=150 )
 #discord起動してない場合の例外処理
-try:
-    richpresence()
-except Exception as e:
-    pass
-root.mainloop()
-selecmu.place(x=20,y=200)
-#再生開始ボタン
-imgg=tk.PhotoImage(file="UI/play_icon.png")
-small_img = imgg.subsample(1,1)
-playbu=tk.Button(image=small_img,command=playth)
-playbu.place(x=530,y=10)
-#一時停止ボタン
-imggg=tk.PhotoImage(file="UI/stop_icon.png")
-small_imgg= imggg.subsample(1,1)
-stopbu=tk.Button(image=small_imgg,command=stopth)
-stopbu.place(x=570,y=200)
-#音量調節バー         #左右の端に音量のアイコン付けたい
-vol=tk.Label(text="Vol",fg="black",font=("20"))
-vol.place(x=150,y=215)
-scale1 = tk.Scale( from_=0, to=100, length=200, orient = 'h', command=set_volume1 )
-scale1.place(x=200,y=200,width=150)
-scale1.set( 100 )
+scrollbar1 = tk.Scrollbar(orient = 'v', command = fileviewer.yview)
+scrollbar1.place( x=500, y=85, height=150 )
 
-#discord起動してない場合の例外処理
 try:
     richpresence()
 except Exception as e:
