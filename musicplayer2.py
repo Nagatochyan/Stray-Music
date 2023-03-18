@@ -135,8 +135,6 @@ def playth():
 
 def stopth():
     stop()
-
-
 #ファイル参照ボタン
 img=tk.PhotoImage(file="UI/docusign.png")
 big_img=img.zoom(2,2)
