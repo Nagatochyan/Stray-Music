@@ -128,13 +128,16 @@ def set_volume1(str1):
     pygame.mixer.music.set_volume(val1)
 
 def selectth():
-    select()
-
+    thread = threading.Thread(target=select)
+    thread.start()
 def playth():
-    play()
-
+    thread=threading.Thread(target=play)
+    thread.start()
 def stopth():
-    stop()
+    thread=threading.Thread(target=stop)
+    thread.start()
+
+
 #ファイル参照ボタン
 img=tk.PhotoImage(file="UI/docusign.png")
 big_img=img.zoom(2,2)
