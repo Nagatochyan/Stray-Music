@@ -1,3 +1,1 @@
-pip install pygame
-pip install pypresence
-pip install mutagen
+pip install -r requirements.txt
