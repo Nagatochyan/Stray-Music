@@ -16,16 +16,16 @@ root.iconbitmap(default=iconfile)
 # pygame 最初に初期化しておく
 pygame.init()
 #Title
-nowp=tk.Label(text="Stray Music Ver1.0",fg="black",font=("20"))
+nowp=tk.Label(text="Stray Music",fg="black",font=("20"))
 nowp.place(x=20, y=20)
 #Discordのステータス表示
 def richpresence():
     global rpc
     rpc=Presence("1085040142634459216")
     rpc.connect()
-    rpc.update(details="Playing stray music",large_image="bg",start=time.time())#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
+    rpc.update(details="Playing stray music",large_image="bg",start=time.time(),buttons=[{"label": "What's this?", "url": "https://github.com/Nagatochyan/Stray-Music"}])#小アイコンと何の曲を聞いているかみたいなのを表示できるようにしたい
 def whatareyouplaying():
-    rpc.update(details="Playing stray music",state=presenceyou,large_image="bg",start=time.time())
+    rpc.update(details="Playing stray music",state=presenceyou,large_image="bg",start=time.time(),buttons=[{"label": "What's this?", "url": "https://github.com/Nagatochyan/Stray-Music"}])
 #何の曲が流れるとか、順番とか（製作中）
 sv = tk.StringVar()
 nowpte=tk.Entry(textvariable=sv,fg="#000000")
@@ -76,7 +76,7 @@ def play():
         #___________________________↑
     else:
         play_music()
- 
+
 def get_next_tune():
     if len(lst) > 0:
         return lst.pop()
